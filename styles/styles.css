@@ -1185,10 +1185,13 @@ details[open] summary ~ * {
 
 
 .policy {
+    margin-bottom: 40px;
 }
 .policy__container {
     max-width: 1000px;
     margin: 0 auto;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 15px;
 }
 .policy__title {
     margin: 0 0 30px 0;
