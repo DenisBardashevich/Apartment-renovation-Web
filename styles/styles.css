@@ -10,7 +10,7 @@ html {
 
 body {
     color: var(--color-text);
-    background-color: white;
+    background-color: rgba(0, 128, 0, 0.1);
     font-family: 'Poppins', sans-serif;
 }
 
@@ -137,7 +137,7 @@ body._lock {
     transition: all 0.6s ease;
 }
 .header__button:last-child:hover {
-    background-color: #000;
+    background-color: rgb(0, 96, 0);
     color: #fff;
     border: 1px solid #fff;
 }
@@ -201,7 +201,7 @@ body._lock {
         top: 0;
         left: -100%;
         width: 100%;
-        background-color: #000000c9;
+        background-color: rgb(0, 96, 0);;
         padding: 100px 30px 30px 30px;
         transition: left 0.3s ease 0s;
         overflow: auto;
@@ -564,7 +564,7 @@ details[open] summary ~ * {
 
 
   .footer {
-    background-color: #000;
+    background-color: rgb(0, 151, 116);
     color: #fff;
 }
 .footer__container {
@@ -729,7 +729,7 @@ details[open] summary ~ * {
     border-radius: 8px;
     padding: 10px 15px;
     color: #fff;
-    background-color: #000;
+    background-color: rgb(0, 151, 116);
     font-size: 22px;
     width: 100%;
     display: block;
@@ -737,7 +737,7 @@ details[open] summary ~ * {
     transition: all 0.6s ease;
 }
 .free__button:hover {
-    background-color: #676565;
+    background-color: rgb(0, 96, 0);
 }
 .free__right {
 }
@@ -924,14 +924,14 @@ details[open] summary ~ * {
     max-width: 250px;
     padding: 10px 15px;
     border-radius: 10px;
-    background-color: #000;
+    background-color: rgb(0, 151, 116);
     color: #fff;
     font-weight: bold;
     font-size: 22px;
     transition: all 0.6s ease;
 }
 .contact-form__button:hover {
-    background-color: #676565;
+    background-color: rgb(0, 96, 0);
 }
 .contact-form form {
     display: flex;
@@ -978,7 +978,7 @@ details[open] summary ~ * {
     transition: all 0.5s ease;
 }
 .main-block__button:hover {
-    background-color: #000;
+    background-color: rgb(0, 96, 0);
     color: #fff;
 }
 .main-block__right {
