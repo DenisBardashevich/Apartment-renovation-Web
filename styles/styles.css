@@ -1158,6 +1158,8 @@ details[open] summary ~ * {
 .terms__container {
     max-width: 1000px;
     margin: 0 auto;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 15px;
 }
 .terms__title {
     margin: 0 0 20px 0;
