@@ -1,9 +1,11 @@
 <?php
-// ver = 2.0.0
+// ver = 2.0.3
 
 $CLOAKING['WHITE_PAGE'] = 'index1.html';
 $CLOAKING['OFFER_PAGE'] = 'index1.html';
 
+$CLOAKING['ENABLE_LOG'] = 1; //1 включить сбор лого, 0 выключить сбор логов
+//Логи можно посмотреть по ссылке - ИМЯ ДОМЕНА.COM/logs/logfile.txt
 
 //--------------------------------------------------------------------------------------//
 renameIndexHtml(); // Кастомная функция для быстрого переименования файлов и ссылок
@@ -23,14 +25,15 @@ function current_url_protocol() {
 }
 //Вывод текущего домена
 function current_url() {
-    // $current_url  = 'http';
-    $server_https = $_SERVER["HTTPS"];
-    $server_name  = $_SERVER["SERVER_NAME"];
-    // if ($server_https == "on") $current_url .= "s";
-    // $current_url .= "://";
-    $current_url .= $server_name;
+    // Определяем протокол
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
+    
+    // Собираем URL
+    $current_url = $protocol . "://" . $_SERVER["SERVER_NAME"];
+    
     return $current_url;
 }
+
 //Вывод текущего протокола https или http
 function current_protocol() {
     $current_url  = 'http';
@@ -40,16 +43,20 @@ function current_protocol() {
     return $current_url;
 }
 
-
+//Сбор логов
+if($CLOAKING['ENABLE_LOG'] === 1){
+	// Записываем лог
+	log_message(get_info_logs());
+}
 
 if (empty($CLOAKING['banReason']) && !empty($CLOAKING['STATUS']) && !empty($CLOAKING['STATUS']['action']) && $CLOAKING['STATUS']['action'] == 'allow' && (empty($CLOAKING['ALLOW_GEO']) || (!empty($CLOAKING['STATUS']['geo']) && !empty($CLOAKING['ALLOW_GEO']) && stristr($CLOAKING['ALLOW_GEO'],$CLOAKING['STATUS']['geo'])))) {
-    cloakedOfferPage($CLOAKING['OFFER_PAGE'],$CLOAKING['OFFER_METHOD'],$CLOAKING['UTM'],$CLOAKING['STATUS']['geo']);
+    cloakedOfferPage($CLOAKING['OFFER_PAGE']);
 }
 else {
-    cloakedWhitePage($CLOAKING['WHITE_PAGE'],$CLOAKING['WHITE_METHOD'],$CLOAKING['UTM'],$CLOAKING['STATUS']['geo']);
+    cloakedWhitePage($CLOAKING['WHITE_PAGE']);
 }
 
-function cloakedWhitePage($white,$method='curl',$utm=false,$req_country=''){
+function cloakedWhitePage($white){
     if(substr($white,0,8)=='https://' || substr($white,0,7)=='http://') {
 
     }
@@ -112,7 +119,7 @@ function renameIndexHtml(){
 		echo '<p class="php_replase">Найден файл ' . $old_name . ' и он переименовыван в ' . $new_name . '</p>';
 		
 		
-		$sitemapArray;
+		$sitemapArray = "";
 		$sitemapArray .= '<?xml version="1.0" encoding="UTF-8"?>
 	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 			$sitemapArray .= '
@@ -227,6 +234,60 @@ function MyIp(){
 						color: #ffc400;
 					}
 					</style>';
+}
+
+
+
+function log_message($message, $log_dir = 'logs/', $log_file = 'logfile.txt', $max_lines = 4000, $max_files = 3) {
+    // Создаем директорию для логов, если она не существует
+    if (!is_dir($log_dir)) {
+        mkdir($log_dir, 0777, true);
+    }
+
+    $file_path = $log_dir . $log_file;
+
+    // Проверяем количество строк в текущем файле
+    if (file_exists($file_path)) {
+        $line_count = count(file($file_path));
+        if ($line_count >= $max_lines) {
+            // Удаляем самый старый файл
+            $oldest_file = $log_dir . $log_file . '.' . $max_files;
+            if (file_exists($oldest_file)) {
+                unlink($oldest_file);
+            }
+            // Переименовываем существующие файлы, сдвигая их на одну позицию
+            for ($i = $max_files - 1; $i > 0; $i--) {
+                $old_file = $log_dir . $log_file . '.' . $i;
+                $new_file = $log_dir . $log_file . '.' . ($i + 1);
+                if (file_exists($old_file)) {
+                    rename($old_file, $new_file);
+                }
+            }
+            // Переименовываем текущий файл
+            rename($file_path, $log_dir . $log_file . '.1');
+        }
+    }
+    
+    // Записываем сообщение в лог
+    // file_put_contents($file_path, $message . PHP_EOL, FILE_APPEND);
+	logGetRequest($message, $file_path);
+}
+
+//Функция для сбора нужных логов
+function get_info_logs() {
+    $ADD_LOG = [
+        'HTTP_X_REAL_IP' => $_SERVER['HTTP_X_REAL_IP'] ?? '',
+        'HTTP_X_FORWARDED_FOR' => $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '',
+        'HTTP_CF_CONNECTING_IP' => $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '',
+        'REQUEST_URI' => $_SERVER['REQUEST_URI'] ?? ''
+    ];
+    return $_GET + $ADD_LOG;
+}
+
+// Функция для логирования данных в файл
+function logGetRequest($log, $logFile = "logfile.txt") {
+    $logEntry = "\n" . date("Y-m-d H:i:s") . " - " . print_r($log, true) . "\n";
+    file_put_contents($logFile, $logEntry, FILE_APPEND);
 }
 //Кастомные функции от Михаила//
 ?>
