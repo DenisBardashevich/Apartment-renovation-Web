@@ -350,8 +350,13 @@ body._lock {
 }
 .faq__left-image {
     display: flex;
-    align-items: center;
-    margin: 0 56px 0 0;
+    align-items: flex-start;
+    margin: 70px 56px 0 0;
+    flex: 1;
+    
+}
+.faq__left-image  img{
+    top: 70px;
 }
 .faq__image {
     width: 100%;
@@ -362,6 +367,7 @@ body._lock {
 }
 .faq__right {
     margin: 40px 0 0 0;
+    flex: 1;
 }
 .faq__title {
     color:var(--color-text);
