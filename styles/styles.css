@@ -762,15 +762,15 @@ details[open] summary ~ * {
 
 
 .contacts {
-    margin: 0 0 40px 0;
+    margin-bottom: 40px;
 }
 .contacts__container {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     padding: 10px;
     align-items: center;
+    justify-content: center;
 }
 .contacts__left {
     margin: 0 20px 0 0;
@@ -786,12 +786,6 @@ details[open] summary ~ * {
 .contacts__left-link {
     color: var(--color-text);
     text-align: center;
-}
-.contacts__right {
-}
-.contacts__right-image {
-    width: 100%;
-    max-width: 600px;
 }
 @media(max-width:768px) {
     .contacts__container {
