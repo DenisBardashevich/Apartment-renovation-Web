@@ -554,7 +554,6 @@ details[open] summary ~ * {
   
   @media (max-width: 480px) {
     .feedback__slide img {
-      width: 100%;
       margin: 0 auto;
     }
   
